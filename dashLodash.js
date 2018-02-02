@@ -1,7 +1,6 @@
 'use strict'
 
-
-exports.chunk = function(array = [], size = 1){
+function chunk(array = [], size = 1){
     let resultArray = [];
     while (array.length) {
         resultArray.push(array.splice(0, size));
@@ -11,7 +10,7 @@ exports.chunk = function(array = [], size = 1){
 };
 
 
-exports.compact = function(array = []) {
+function compact(array = []) {
     let resultArray = [];
     for (let i = 0; i < array.length; i++) {
         if (array[i]) resultArray.push(array[i]);
@@ -20,7 +19,7 @@ exports.compact = function(array = []) {
     return resultArray;
 }
 
-exports.concat = function() {
+function concat() {
     let resultArray = [];
     let args = [];
     for (let i = 0; i < arguments.length; i++) {
@@ -37,15 +36,6 @@ exports.concat = function() {
     return resultArray;
 }
 
-// exports.difference = function(arrFrom = [], arrWhat) {
-//     let resultArray = [];
-//     for(let i = 0; i < arrFrom.length; i++)
-//         if (!(arrWhat.includes(arrFrom[i]))) {
-//             resultArray.push(arrFrom[i]);
-//             console.log(arrFrom[i]);
-//         }
-//     return resultArray;
-// }
 
 function compareForDifferences(array, currentArray) {
     var newArray = [];
@@ -58,8 +48,7 @@ function compareForDifferences(array, currentArray) {
     return newArray;
 }
 
-exports.difference = function(ars) {
-
+function difference(ars) {
     if (!arguments.length) {
         return []
     } else {
@@ -78,27 +67,27 @@ exports.difference = function(ars) {
     }
 }
 
-exports.drop = function(arr = [], size = 1) {
+function drop(arr = [], size = 1) {
     return arr.slice(size, arr.length);
 }
 
-exports.dropRight = function(arr = [], size = 1) {
+function dropRight(arr = [], size = 1) {
     return arr.slice(0, arr.length-size);
 }
 
-exports.fill = function(arr = [], value, start = 0, end = arr.length) {
+function fill(arr = [], value, start = 0, end = arr.length) {
     for(start; start < end; start++)
         arr[start] = value;
 
     return arr;
 }
 
-exports.head = function(arr) {
+function head(arr) {
     if(arguments.length == 0 || !(arguments[0] instanceof Array)) return undefined;
     return arr[0];
 }
 
-exports.flatten = function(arr = []) {
+function flatten(arr = []) {
     let resultArray = [];
     for (let i = 0; i < arr.length; i++) {
         if (arr[i] instanceof Array) {
@@ -121,14 +110,14 @@ function getRidOfDepth(arg, temp) {
     } else temp.push(arg);
 }
 
-exports.flattenDeep = function(arr = []) {
+function flattenDeep(arr = []) {
     let resultArray = [];
     getRidOfDepth(arr, resultArray);
 
     return resultArray;
 }
 
-exports.flattenDepth = function(arr = [], depth = 1) {
+function flattenDepth(arr = [], depth = 1) {
     let resultArray = [];
     getRidOfDefDepth(arr, resultArray, depth);
 
@@ -146,7 +135,7 @@ function getRidOfDefDepth(arg, temp, depth) {
 }
 
 
-exports.fromPairs = function(pairs = {}) {
+function fromPairs(pairs = {}) {
     var result = {};
     for (let i = 0; i < pairs.length; i++) {
         var onePair = pairs[i];
@@ -156,7 +145,7 @@ exports.fromPairs = function(pairs = {}) {
     return result;
 }
 
-exports.indexOf = function(array = [], value, fromIndex = 0) {
+function indexOf(array = [], value, fromIndex = 0) {
     var result = -1;
     for(fromIndex; fromIndex < array.length; fromIndex++) {
         if (array[fromIndex] == value) {
@@ -168,8 +157,8 @@ exports.indexOf = function(array = [], value, fromIndex = 0) {
     return result;
 }
 
-exports.initial = function(array) {
-    return exports.dropRight(array, 1);
+function initial(array) {
+    return dropRight(array, 1);
 }
 
 
@@ -184,7 +173,7 @@ function compareForIntersection(array, currentArray) {
     return newArray;
 }
 
-exports.intersection = function(ars = []) {
+function intersection(ars = []) {
     var newArr = [];
     for (var t = 0; t < arguments.length; t++) {
         if (!(arguments[t] instanceof Array)) {
@@ -205,3 +194,102 @@ exports.intersection = function(ars = []) {
 
     return newArr;
 }
+
+
+function join(array = [], separator = ',') {
+    var resultString = separator;
+    if (array instanceof Array) {
+        array.forEach(el => {
+            resultString = el + resultString;
+        })
+        resultString = initial(resultString);
+
+        return resultString;
+    } else return resultString;
+}
+
+function last(arr) {
+    return(drop(arr, arr.length-1));
+}
+
+
+function nth(array, n = 0) {
+    if(n < 0) {
+        return array[array.length - 2];
+    }
+
+    return array[n];
+}
+
+function pull(array, ...values) {
+    var ar = values;
+    if (ar) {
+        ar.forEach(el => {
+            for(let i = 0; i < array.length; i++) {
+                if(array[i] == el) {
+                    array.splice(i, 1);
+                }
+            }
+        })
+
+        return array;
+    }   else return array;
+}
+// console.log(test.pullAll(['c', 'a', 'a', 'a'], ['a', 'c', 'b']));
+
+function pullAll(array = [], values = []) {
+    var arrayCopy = array;
+    for (var el = 0; el < values.length; el++) {
+        for(let i = 0; i < array.length; i++) {
+            if(array[i] == values[el]) {
+                delete arrayCopy[i];
+            }
+        }
+    }
+
+    return compact(arrayCopy);
+}
+
+function pullAt(arr = [], ...indexes) {
+    var values = [], pulled = [];
+    if(!(indexes instanceof Array)) {
+        values = indexes;
+    } else values = arguments[1];
+
+    if(arr) {
+        values.forEach(el => {
+            for(var i = 0; i < arr.length; i++) {
+                if(i == el) {
+                    pulled.push(arr[i]);
+                }
+            }
+        })
+        arr = pullAll(arr, pulled);
+
+        return pulled;
+    }
+
+    return [];
+}
+
+exports.pullAt = pullAt;
+exports.nth = nth;
+exports.last = last;
+exports.join = join;
+exports.intersection = intersection;
+exports.initial = initial;
+exports.indexOf = indexOf;
+exports.fromPairs = fromPairs;
+exports.flattenDepth = flattenDepth;
+exports.flattenDeep = flattenDeep;
+exports.flatten = flatten;
+exports.head = head;
+exports.fill = fill;
+exports.dropRight = dropRight;
+exports.drop = drop;
+exports.difference = difference;
+exports.concat = concat;
+exports.compact = compact;
+exports.chunk = chunk;
+exports.pullAll = pullAll;
+exports.pull = pull;

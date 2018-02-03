@@ -1,5 +1,6 @@
 'use strict'
 
+
 function chunk(array = [], size = 1){
     let resultArray = [];
     while (array.length) {
@@ -235,19 +236,17 @@ function pull(array, ...values) {
         return array;
     }   else return array;
 }
-// console.log(test.pullAll(['c', 'a', 'a', 'a'], ['a', 'c', 'b']));
 
 function pullAll(array = [], values = []) {
-    var arrayCopy = array;
-    for (var el = 0; el < values.length; el++) {
-        for(let i = 0; i < array.length; i++) {
-            if(array[i] == values[el]) {
-                delete arrayCopy[i];
-            }
+    values.forEach(el => {
+        var index = 0;
+        while ((indexOf(array, el, index)) != -1) {
+            index = indexOf(array, el, index);
+            array.splice(index, 1);
         }
-    }
+    })
 
-    return compact(arrayCopy);
+    return array;
 }
 
 function pullAt(arr = [], ...indexes) {
@@ -265,13 +264,64 @@ function pullAt(arr = [], ...indexes) {
             }
         })
         arr = pullAll(arr, pulled);
-
         return pulled;
     }
 
     return [];
 }
 
+function remove(array = [], predicate) {
+    var result = [], index = 0, indexes = [];
+    if (!(arguments[0] instanceof Array)) {
+
+        return result;
+    }
+
+    array.forEach (el => {
+        if (predicate(el, index, array)) {
+            result.push(el);
+            indexes.push(index);
+        }
+        index++;
+    });
+    pullAt(array, indexes);
+
+    return result;
+}
+
+function reverse(array = []) {
+    var temp, length = array.length;
+    for(var i = 0; i < length / 2; i++) {
+        temp = array[i];
+        array[i] = array[length - 1 - i];
+        array[length - 1 - i] = temp;
+    }
+
+    return array;
+}
+
+function slice(array, start = [], end = []) {
+    var result = [];
+    if (!array.length) {
+      return [];
+    }
+
+    if (!(end instanceof Number) || !(start instanceof Number)) {
+        start = 0;
+        end = array.length;
+    }
+    array.forEach(el => {
+        result.push(el);
+    });
+
+    return result;
+}
+
+
+exports.sortedIndex = sortedIndex;
+exports.slice = slice;
+exports.reverse = reverse;
+exports.remove = remove;
 exports.pullAt = pullAt;
 exports.nth = nth;
 exports.last = last;

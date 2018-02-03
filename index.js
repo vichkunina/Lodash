@@ -21,4 +21,10 @@ console.log(test.last([2, 5, 7, 4]));
 console.log(test.nth(['a', 'b', 'c', 'd'], 1));
 console.log(test.pull(['a', 'b', 'c', 'a', 'b', 'c'], 'a', 'b'));
 console.log(test.pullAll(['c', 'a', 'a', 'a'], ['a', 'c']));
-console.log(test.pullAt(['a', 'b', 'c', 'd'], [1, 3]))
+console.log(test.pullAt([1, 2, 3, 4], [1, 3]));
+console.log(test.remove([1, 2, 3, 4], function(n) {
+    return n % 2 == 0;
+}));
+console.log(test.reverse([1, 2, 3, 4, 5]));
+console.log(test.slice([1, 2, 3, 4, 5], 1, 3));
+// console.log(test.sortedIndex([30, 50], 40));

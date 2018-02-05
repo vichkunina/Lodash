@@ -317,8 +317,125 @@ function slice(array, start = [], end = []) {
     return result;
 }
 
+function differenceBy(array = [], values = [], iteratee) {
+    var result = [], array2 = [], values2 = [], result;
+    if (!(arguments[0] instanceof Array)) {
 
+        return result;
+    }
+
+    array.forEach (el => array2.push(iteratee(el)));
+    values.forEach (el => values2.push(iteratee(el)));
+    array.forEach(el => {
+        if(iteratee(el) ==  difference(array2, values2)) {
+            result = el;
+        }});
+
+    return result;
+}
+
+function intersectionBy(array = [], values = [], iteratee) {
+    var result = [], array2 = [], values2 = [], result;
+    if (!(arguments[0] instanceof Array)) {
+
+        return result;
+    }
+
+    array.forEach (el => array2.push(iteratee(el)));
+    values.forEach (el => values2.push(iteratee(el)));
+    array.forEach(el => {
+        if(iteratee(el) ==  intersection(array2, values2)) {
+            result = el;
+        }});
+
+    return result;
+}
+
+function sortedIndex(array, value, maxIndex) {
+    var start = 0, end = array.length;
+    while (start < end) {
+        var middle = Math.floor((start + end) / 2),
+            data = array[middle];
+        var criterion = maxIndex? data <= value : data < value;
+        if (criterion) {
+            start = middle + 1;
+        } else {
+            end = middle;
+        }
+    }
+    return end;
+}
+
+function sortedIndexBy(array, value, iteratee) {
+    value = iteratee(value);
+    var start = 0, end = array.length;
+    while (start < end) {
+        var middle = Math.floor((start + end) / 2), data = iteratee(array[middle]);
+        if (data < value) {
+            start = middle + 1;
+        } else {
+            end = middle;
+        }
+    }
+    return end;
+}
+
+function sortedIndexOf(array, value) {
+    if(array) {
+        var index = sortedIndex(array, value);
+        if (value == array[index]) {
+            return index;
+        }
+    }
+
+    return -1;
+}
+
+function sortedLastIndex(array = [], value) {
+    var maxIndex = true;
+
+    return sortedIndex(array, value, maxIndex);
+}
+
+function tail(array = []) {
+    if(array instanceof Array) {
+        return array.slice(1, array.length);
+    }
+
+    return [];
+}
+
+function take(array = [], n = 1) {
+    if(array instanceof Array) {
+        return array.slice(0, n);
+    }
+
+    return [];
+}
+
+function takeRight(array = [], n = 1) {
+    if(array instanceof Array) {
+        if(n > array.length) {
+            n = array.length;
+        }
+
+        return array.slice(array.length - n, array.length);
+    }
+
+    return [];
+}
+
+
+
+exports.takeRight = takeRight;
+exports.take = take;
+exports.tail = tail;
+exports.sortedLastIndex = sortedLastIndex;
+exports.sortedIndexOf = sortedIndexOf;
+exports.intersectionBy = intersectionBy;
+exports.sortedIndexBy = sortedIndexBy;
 exports.sortedIndex = sortedIndex;
+exports.differenceBy = differenceBy;
 exports.slice = slice;
 exports.reverse = reverse;
 exports.remove = remove;

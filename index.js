@@ -27,4 +27,13 @@ console.log(test.remove([1, 2, 3, 4], function(n) {
 }));
 console.log(test.reverse([1, 2, 3, 4, 5]));
 console.log(test.slice([1, 2, 3, 4, 5], 1, 3));
-// console.log(test.sortedIndex([30, 50], 40));
+console.log(test.sortedIndex([30, 50, 60, 70, 70, 80, 90], 70));
+console.log(test.differenceBy([2.1, 5.2], [2.3, 3.4], Math.floor));
+var objects = [{ 'y': 2 }, { 'y': 5 }, { 'x': 3 }, { 'x': 7 }];
+console.log(test.sortedIndexBy(objects, { 'x': 5 }, function(o) { return o.x; }));
+console.log(test.intersectionBy([2.1, 1.2], [2.3, 3.4], Math.floor));
+console.log(test.sortedIndexOf([4, 5, 5, 5, 6], 5));
+console.log(test.sortedLastIndex([4, 5, 5, 5, 6], 5));
+console.log(test.tail([1, 2, 3]));
+console.log(test.take([1, 2, 3], 2));
+console.log(test.takeRight([1, 2, 3], 2));

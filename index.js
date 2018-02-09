@@ -31,9 +31,19 @@ console.log(test.sortedIndex([30, 50, 60, 70, 70, 80, 90], 70));
 console.log(test.differenceBy([2.1, 5.2], [2.3, 3.4], Math.floor));
 var objects = [{ 'y': 2 }, { 'y': 5 }, { 'x': 3 }, { 'x': 7 }];
 console.log(test.sortedIndexBy(objects, { 'x': 5 }, function(o) { return o.x; }));
-console.log(test.intersectionBy([2.1, 1.2], [2.3, 3.4], Math.floor));
+console.log(test.intersectionBy([2.1, 1.2], [2.3, 3.4],  Math.floor));
 console.log(test.sortedIndexOf([4, 5, 5, 5, 6], 5));
 console.log(test.sortedLastIndex([4, 5, 5, 5, 6], 5));
 console.log(test.tail([1, 2, 3]));
 console.log(test.take([1, 2, 3], 2));
 console.log(test.takeRight([1, 2, 3], 2));
+console.log(test.union([3], [2], [1, 2]));
+console.log(test.uniq([2, 1, 2]));
+console.log(test.unionBy([2.1], [1.2, 2.3], [1], Math.floor));
+var zipped = test.zip(['a', 'b'], [1, 2], [true, false, 6, 6, 6], [4])
+console.log(zipped);
+console.log(test.unzip(zipped));
+console.log(test.castArray('sd'));
+console.log(test.zipObject(['a', 'b', 'c'], [1, 2]));
+
+

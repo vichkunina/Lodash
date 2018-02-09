@@ -1,6 +1,6 @@
 'use strict'
 
-
+/* Array */
 function chunk(array = [], size = 1){
     let resultArray = [];
     while (array.length) {
@@ -19,6 +19,7 @@ function compact(array = []) {
 
     return resultArray;
 }
+
 
 function concat() {
     let resultArray = [];
@@ -210,7 +211,7 @@ function join(array = [], separator = ',') {
 }
 
 function last(arr) {
-    return(drop(arr, arr.length-1));
+    return arr[arr.length - 1];
 }
 
 
@@ -277,13 +278,14 @@ function remove(array = [], predicate) {
         return result;
     }
 
-    array.forEach (el => {
+    array.forEach(el => {
         if (predicate(el, index, array)) {
             result.push(el);
             indexes.push(index);
         }
         index++;
     });
+
     pullAt(array, indexes);
 
     return result;
@@ -344,9 +346,9 @@ function intersectionBy(array = [], values = [], iteratee) {
     array.forEach (el => array2.push(iteratee(el)));
     values.forEach (el => values2.push(iteratee(el)));
     array.forEach(el => {
-        if(iteratee(el) ==  intersection(array2, values2)) {
+        if(iteratee(el) == intersection(array2, values2)) {
             result = el;
-        }});
+    }});
 
     return result;
 }
@@ -426,7 +428,122 @@ function takeRight(array = [], n = 1) {
 }
 
 
+function union(arrays) {
+    var resultArray = [];
+    for(var i = 0; i < arguments.length; i++) {
+        arguments[i].forEach(el => resultArray.push(el));
+    }
 
+    resultArray = uniq(resultArray);
+    return resultArray;
+}
+
+function unionBy(...args) {
+    let arr = [], arr2 = [], result = [], iteratee = last(args), i = 0, j = 0;
+
+    if (typeof iteratee != 'function') {
+        iteratee = undefined;
+    }
+
+    arr = flatten(initial(args));
+    arr.forEach(el => arr2.push(iteratee(el)));
+    arr2 = uniq(arr2);
+    while(j != arr2.length) {
+        if(iteratee(arr[i]) == arr2[j]) {
+            result.push(arr[i]);
+            i++; j++;
+        } else i++;
+    }
+
+    return result;
+}
+
+
+function uniq(array) {
+    var resultArray = [];
+    array.forEach(el => {
+        if (resultArray.indexOf(el) == -1) {
+            resultArray.push(el);
+        }
+    });
+
+    return resultArray;
+}
+
+function unzip(arr) {
+    arr = zip(arr);
+    return arr;
+}
+
+function zip(...args) {
+
+    var arr = args, result = [];
+    if(arr.length == 1 && arr[0] instanceof Array){
+        arr = flatten(arr);
+    }
+
+    let maxIndex = maxAmountOfIndex(arr);
+    for(let i = 0; i < arr.length; i++) {
+        for(let j = 0; j < arr[i].length; j++) {
+            while(result.length <= j) {
+                result.push([]);
+            }
+            result[j][i] = arr[i][j];
+        }
+    }
+
+    return result;
+}
+
+
+function zipObject(props = [], values = []) {
+    return fromPairs(zip(props, values));
+}
+
+
+function maxAmountOfIndex(args) {
+    let result = [];
+    for(let i = 0; i < arguments.length; i++) {
+        result.push(arguments[i].length);
+    }
+    return max(result);
+}
+
+
+/* Lang */
+
+var isArray = Array.isArray;
+
+function isObject(value) {
+    return value != null && (typeof value == 'object' || typeof value == 'function');
+}
+
+function castArray(value = []) {
+    if(value instanceof Array) {
+        return value;
+    }
+    let result = [];
+    result.push(value);
+    return result;
+}
+
+
+function max(array) {
+    return array.reduce((a, b) => {
+        return Math.max(a, b);
+    });
+}
+
+
+exports.zipObject = zipObject;
+exports.isObject = isObject;
+exports.castArray = castArray;
+exports.max = max;
+exports.zip = zip;
+exports.unzip = unzip;
+exports.unionBy = unionBy;
+exports.uniq = uniq;
+exports.union = union;
 exports.takeRight = takeRight;
 exports.take = take;
 exports.tail = tail;
